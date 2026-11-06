@@ -1,4 +1,5 @@
-## Processo de desenvolvimento com assistência de IA
-* **Ferramenta utilizada:** Assistente de IA (Gemini).
-* **Contribuição da IA:** Auxílio na estruturação lógica da malha de Perlin noise (`noise()`) combinada com a matriz de distância ao cursor (`dist()`) para simular feedback de pressão tátil.
-* **Iteração humana:** O código foi testado no VSCode, ajustando-se as paletas cromáticas, a escala da grelha e a densidade dos elementos visuais para se adequar ao contexto de Design de Produto ((com)FORMA).
+## Projeto final 
+
+Desenvolvi uma composição paramétrica interativa em p5.js que funciona como um gerador digital de superfícies para o âmbito do design industrial e de produto. O artefacto cruza os inputs de posição do cursor em tempo real — onde o eixo X controla a densidade da malha modular e o eixo Y ajusta a escala e proporção dos elementos — com funções trigonométricas e estruturas condicionais (if/else). À medida que o utilizador interage, a geometria altera-se dinamicamente, transitando de módulos orgânicos circulares para tramas lineares de alta densidade
+
+Onde a IA ajudou: Na formulação matemática dos ciclos aninhados (for), na aplicação correta das funções de translação de matrizes (push, pop, translate), e no mapeamento de variáveis (map()) para ligar o movimento do cursor à densidade e escala da grelha.
