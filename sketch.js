@@ -1,61 +1,51 @@
-
-let cols, rows;
-let escalaGrid = 30; 
-let zOffset = 0;     
+/**
+ */
 
 function setup() {
   createCanvas(800, 600);
-  cols = width / escalaGrid;
-  rows = height / escalaGrid;
+  rectMode(CENTER);
 }
 
 function draw() {
-  background(18, 22, 30); 
-  
-  zOffset += 0.015;
+  background(22, 26, 35); 
 
-  let xOffset = 0;
-  for (let i = 0; i < cols; i++) {
-    let yOffset = 0;
-    for (let j = 0; j < rows; j++) {
-      
-      let x = i * escalaGrid;
-      let y = j * escalaGrid;
-      
-      let distancia = dist(mouseX, mouseY, x, y);
-      
-      let raioInfluencia = 180;
-      let fatorPressao = 0;
-      if (distancia < raioInfluencia) {
-        fatorPressao = map(distancia, 0, raioInfluencia, 1, 0);
-      }
+  let densidade = int(map(mouseX, 0, width, 8, 28));
+  let escalaFator = map(mouseY, 0, height, 0.3, 1.8);
 
-      let ruidoValor = noise(xOffset, yOffset, zOffset);
-      let deslocamentoZ = ruidoValor * 35;
+  let tamanhoCelula = width / densidade;
+
+  translate(tamanhoCelula / 2, tamanhoCelula / 2);
+
+  for (let i = 0; i < densidade; i++) {
+    for (let j = 0; j < densidade; j++) {
       
-      let tamanhoBase = map(ruidoValor, 0, 1, 2, 12);
-      let tamanhoFinal = tamanhoBase + (fatorPressao * 22);
+      let x = i * tamanhoCelula;
+      let y = j * tamanhoCelula;
 
-      let corVermelho = map(fatorPressao, 0, 1, 50, 255);
-      let corVerde    = map(fatorPressao, 0, 1, 150, 80);
-      let corAzul     = map(fatorPressao, 0, 1, 220, 120);
-
-      stroke(corVermelho, corVerde, corAzul, 180);
-      strokeWeight(map(fatorPressao, 0, 1, 1, 3));
+      let distanciaCentro = dist(i, j, densidade / 2, densidade / 2);
+      let proporcaoDinamica = sin(frameCount * 0.03 + distanciaCentro * 0.3) * 0.5 + 0.5;
 
       push();
-      translate(x + escalaGrid / 2, y + escalaGrid / 2);
-      
-      let anguloRotacao = ruidoValor * TWO_PI + (fatorPressao * TWO_PI * 0.5);
-      rotate(anguloRotacao);
+      translate(x, y);
 
-      line(-tamanhoFinal, 0, tamanhoFinal, 0);
-      line(0, -tamanhoFinal, 0, tamanhoFinal);
-      
+      if (densidade > 18) {
+        stroke(80, 200, 255, 180);
+        noFill();
+        strokeWeight(1.5);
+        rect(0, 0, tamanhoCelula * 0.7 * escalaFator * proporcaoDinamica, tamanhoCelula * 0.7 * escalaFator);
+      } else {
+        noStroke();
+        let corInterpolada = lerpColor(color(255, 100, 150), color(50, 200, 180), proporcaoDinamica);
+        fill(corInterpolada);
+        
+        let tamForma = tamanhoCelula * 0.65 * escalaFator * proporcaoDinamica;
+        ellipse(0, 0, tamForma, tamForma);
+        
+        fill(22, 26, 35);
+        rect(0, 0, tamForma * 0.35, tamForma * 0.35);
+      }
+
       pop();
-      
-      yOffset += 0.1;
     }
-    xOffset += 0.1;
   }
 }
